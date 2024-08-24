@@ -69,9 +69,7 @@ namespace TrilhaApiDesafio.Controllers
         {       
             var tarefa = _context.Tarefas.Where(x => x.Status == status);
             return Ok(tarefa);
-        }
-
-       
+        }       
 
          [HttpPut("{id}")]
         public IActionResult Atualizar(int id, Tarefa tarefa)
@@ -84,6 +82,7 @@ namespace TrilhaApiDesafio.Controllers
             if (tarefa.Data == DateTime.MinValue)
                 return BadRequest(new { Erro = "A data da tarefa não pode ser vazia" });
 
+            // implemented
             tarefaBanco.Titulo = tarefa.Titulo;
             tarefaBanco.Descricao = tarefa.Descricao;
             tarefaBanco.Data = tarefa.Data;
@@ -94,7 +93,7 @@ namespace TrilhaApiDesafio.Controllers
 
             return Ok();
         }
-        
+
         [HttpDelete("{id}")]
         public IActionResult Deletar(int id)
         {
@@ -103,7 +102,10 @@ namespace TrilhaApiDesafio.Controllers
             if (tarefaBanco == null)
                 return NotFound();
 
-            // TODO: Remover a tarefa encontrada através do EF e salvar as mudanças (save changes)
+            // implemented
+            _context.Tarefas.Remove(tarefaBanco);
+            _context.SaveChanges();
+            
             return NoContent();
         }
     }
